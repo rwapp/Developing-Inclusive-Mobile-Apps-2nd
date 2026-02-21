@@ -13,27 +13,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mobilea11y.semanticViews.ui.theme.SemanticViewsTheme
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.contentDescription
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +88,14 @@ fun AppDetails() {
 @Composable
 fun Reviews(modifier: Modifier = Modifier) {
     Column(
-        modifier,
+        modifier.clearAndSetSemantics {
+            contentDescription = "4.1 stars from 2 million reviews"
+            role = Role.Button
+            onClick {
+                buttonAction()
+                true
+            }
+        },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -98,7 +110,14 @@ fun Reviews(modifier: Modifier = Modifier) {
 @Composable
 fun Guidance(modifier: Modifier = Modifier) {
     Column(
-        modifier,
+        modifier.clearAndSetSemantics {
+            contentDescription = "Rating: Parental guidance"
+            role = Role.Button
+            onClick {
+                buttonAction()
+                true
+            }
+        },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
@@ -112,7 +131,9 @@ fun Guidance(modifier: Modifier = Modifier) {
 @Composable
 fun Downloads(modifier: Modifier = Modifier) {
     Column(
-        modifier,
+        modifier.clearAndSetSemantics {
+            contentDescription = "500 million plus downloads"
+        },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("500m+", Modifier.fillMaxWidth(), fontWeight = FontWeight.Bold)
@@ -139,11 +160,11 @@ fun LabelWithButton(text: String, onClick: () -> Unit) {
             textAlign = TextAlign.Start
         )
         IconButton(
-            onClick = onClick
+            onClick = onClick,
         ) {
             Icon(
                 imageVector = Icons.Default.Info,
-                contentDescription = "Information"
+                contentDescription = null
             )
         }
     }
