@@ -1,6 +1,8 @@
 package com.mobilea11y.accessibilitytree
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Intent
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import androidx.lifecycle.Lifecycle
 import com.mobilea11y.accessibilitytree.lifecycle.ServiceLifecycleOwner
@@ -30,15 +32,14 @@ class AccessibilityTree : AccessibilityService() {
             onTreeClick = {
                 val root = rootInActiveWindow
                 if (root != null) dumper.dump(root) else
-                    android.util.Log.w("A11Y_TREE", "rootInActiveWindow is null")
+                    Log.w("A11Y_TREE", "rootInActiveWindow is null")
             }
         )
         overlay.show()
     }
 
-    override fun onUnbind(intent: android.content.Intent?): Boolean {
+    override fun onUnbind(intent: Intent?): Boolean {
         overlay.hide()
-        lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         return super.onUnbind(intent)
     }
 
